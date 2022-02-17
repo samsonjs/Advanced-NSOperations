@@ -11,12 +11,12 @@ import Foundation
 class DownloadEarthquakesOperation: GroupOperation {
     // MARK: Properties
 
-    let cacheFile: NSURL
+    let cacheFile: URL
     
     // MARK: Initialization
     
-    /// - parameter cacheFile: The file `NSURL` to which the earthquake feed will be downloaded.
-    init(cacheFile: NSURL) {
+    /// - parameter cacheFile: The file `URL` to which the earthquake feed will be downloaded.
+    init(cacheFile: URL) {
         self.cacheFile = cacheFile
         super.init(operations: [])
         name = "Download Earthquakes"
@@ -29,43 +29,43 @@ class DownloadEarthquakesOperation: GroupOperation {
             or when the services you use offer secure communication options, you
             should always prefer to use https.
         */
-        let url = NSURL(string: "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson")!
-        let task = NSURLSession.sharedSession().downloadTaskWithURL(url) { url, response, error in
-            self.downloadFinished(url, response: response as? NSHTTPURLResponse, error: error)
+        let url = URL(string: "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson")!
+        let task = URLSession.shared.downloadTask(with: url) { url, response, error in
+            self.downloadFinished(url: url, response: response as? HTTPURLResponse, error: error as NSError?)
         }
         
         let taskOperation = URLSessionTaskOperation(task: task)
         
         let reachabilityCondition = ReachabilityCondition(host: url)
-        taskOperation.addCondition(reachabilityCondition)
+        taskOperation.addCondition(condition: reachabilityCondition)
 
         let networkObserver = NetworkObserver()
-        taskOperation.addObserver(networkObserver)
+        taskOperation.addObserver(observer: networkObserver)
         
-        addOperation(taskOperation)
+        addOperation(operation: taskOperation)
     }
     
-    func downloadFinished(url: NSURL?, response: NSHTTPURLResponse?, error: NSError?) {
+    func downloadFinished(url: URL?, response: HTTPURLResponse?, error: NSError?) {
         if let localURL = url {
             do {
                 /*
                     If we already have a file at this location, just delete it.
                     Also, swallow the error, because we don't really care about it.
                 */
-                try NSFileManager.defaultManager().removeItemAtURL(cacheFile)
+                try FileManager.default.removeItem(at: cacheFile)
             }
             catch { }
             
             do {
-                try NSFileManager.defaultManager().moveItemAtURL(localURL, toURL: cacheFile)
+                try FileManager.default.moveItem(at: localURL, to: cacheFile)
             }
             catch let error as NSError {
-                aggregateError(error)
+                aggregateError(error: error)
             }
             
         }
         else if let error = error {
-            aggregateError(error)
+            aggregateError(error: error)
         }
         else {
             // Do nothing, and the operation will automatically finish.

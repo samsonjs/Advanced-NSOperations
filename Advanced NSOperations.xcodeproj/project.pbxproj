@@ -17,10 +17,10 @@
 		553F500F1B081A9D005F991E /* NetworkObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F500E1B081A9D005F991E /* NetworkObserver.swift */; };
 		553F50111B082BCF005F991E /* BackgroundObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F50101B082BCF005F991E /* BackgroundObserver.swift */; };
 		553F50161B08E98A005F991E /* LoadModelOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F50151B08E98A005F991E /* LoadModelOperation.swift */; };
-		55817C3A1B18FDF8001C0CE2 /* OperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B9C061AEB2D7800302388 /* OperationQueue.swift */; };
+		55817C3A1B18FDF8001C0CE2 /* EarthquakeOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B9C061AEB2D7800302388 /* EarthquakeOperationQueue.swift */; };
 		55817C3B1B18FDF8001C0CE2 /* ExclusivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CD4D201AF5C05300E3A9E3 /* ExclusivityController.swift */; };
-		55817C3C1B18FDF8001C0CE2 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B9C021AEB1CA900302388 /* Operation.swift */; };
 		55817C3D1B18FDF8001C0CE2 /* EarthquakeBlockOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55857B3A1AF20DE800219D5A /* EarthquakeBlockOperation.swift */; };
+		55817C3C1B18FDF8001C0CE2 /* EarthquakeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B9C021AEB1CA900302388 /* EarthquakeOperation.swift */; };
 		55817C3E1B18FDF8001C0CE2 /* GroupOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55727FB11AF2798C00EC6916 /* GroupOperation.swift */; };
 		55817C3F1B18FDF8001C0CE2 /* URLSessionTaskOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55727FB91AF2849E00EC6916 /* URLSessionTaskOperation.swift */; };
 		55817C401B18FDF8001C0CE2 /* LocationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F50031B07FB5E005F991E /* LocationOperation.swift */; };
@@ -84,9 +84,9 @@
 		551B9BE71AEB1C9700302388 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		551B9BE91AEB1C9700302388 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		551B9BEC1AEB1C9700302388 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		551B9C021AEB1CA900302388 /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
+		551B9C021AEB1CA900302388 /* EarthquakeOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarthquakeOperation.swift; sourceTree = "<group>"; };
 		551B9C041AEB1CC800302388 /* OperationCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationCondition.swift; sourceTree = "<group>"; };
-		551B9C061AEB2D7800302388 /* OperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationQueue.swift; sourceTree = "<group>"; };
+		551B9C061AEB2D7800302388 /* EarthquakeOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarthquakeOperationQueue.swift; sourceTree = "<group>"; };
 		551B9C0B1AEBE4F300302388 /* CloudCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudCondition.swift; sourceTree = "<group>"; };
 		551B9C0D1AEBE52800302388 /* ReachabilityCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityCondition.swift; sourceTree = "<group>"; };
 		551B9C101AEBE54D00302388 /* PassbookCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassbookCondition.swift; sourceTree = "<group>"; };
@@ -207,7 +207,7 @@
 		553F2D621AFFED5300BF4093 /* Operation Queue */ = {
 			isa = PBXGroup;
 			children = (
-				551B9C061AEB2D7800302388 /* OperationQueue.swift */,
+				551B9C061AEB2D7800302388 /* EarthquakeOperationQueue.swift */,
 				55CD4D201AF5C05300E3A9E3 /* ExclusivityController.swift */,
 			);
 			name = "Operation Queue";
@@ -275,8 +275,8 @@
 		55857B301AF1E59900219D5A /* Operations */ = {
 			isa = PBXGroup;
 			children = (
-				551B9C021AEB1CA900302388 /* Operation.swift */,
 				55857B3A1AF20DE800219D5A /* EarthquakeBlockOperation.swift */,
+				551B9C021AEB1CA900302388 /* EarthquakeOperation.swift */,
 				55727FB11AF2798C00EC6916 /* GroupOperation.swift */,
 				55727FB91AF2849E00EC6916 /* URLSessionTaskOperation.swift */,
 				553F50031B07FB5E005F991E /* LocationOperation.swift */,
@@ -396,8 +396,8 @@
 				55E7021F1AFD15C80032742F /* SplitViewController.swift in Sources */,
 				55817C4D1B18FDF8001C0CE2 /* PassbookCondition.swift in Sources */,
 				55817C561B18FDF8001C0CE2 /* NSOperation+Operations.swift in Sources */,
-				55817C3C1B18FDF8001C0CE2 /* Operation.swift in Sources */,
-				55817C3A1B18FDF8001C0CE2 /* OperationQueue.swift in Sources */,
+				55817C3C1B18FDF8001C0CE2 /* EarthquakeOperation.swift in Sources */,
+				55817C3A1B18FDF8001C0CE2 /* EarthquakeOperationQueue.swift in Sources */,
 				55817C4A1B18FDF8001C0CE2 /* MutuallyExclusive.swift in Sources */,
 				55817C531B18FDF8001C0CE2 /* UserNotificationCondition.swift in Sources */,
 				55817C461B18FDF8001C0CE2 /* OperationCondition.swift in Sources */,
@@ -550,6 +550,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Earthquakes;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -566,6 +567,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Earthquakes;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

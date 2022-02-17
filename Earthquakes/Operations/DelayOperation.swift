@@ -20,12 +20,12 @@ import Foundation
     If the interval is negative, or the `NSDate` is in the past, then this operation
     immediately finishes.
 */
-class DelayOperation: Operation {
+class DelayOperation: EarthquakeOperation {
     // MARK: Types
 
     private enum Delay {
-        case Interval(NSTimeInterval)
-        case Date(NSDate)
+        case Interval(Int)
+        case Date(Date)
     }
     
     // MARK: Properties
@@ -34,18 +34,18 @@ class DelayOperation: Operation {
     
     // MARK: Initialization
     
-    init(interval: NSTimeInterval) {
-        delay = .Interval(interval)
+    init(interval: TimeInterval) {
+        delay = .Interval(Int(interval))
         super.init()
     }
     
     init(until date: NSDate) {
-        delay = .Date(date)
+        delay = .Date(date as Date)
         super.init()
     }
     
     override func execute() {
-        let interval: NSTimeInterval
+        let interval: Int
         
         // Figure out how long we should wait for.
         switch delay {
@@ -53,7 +53,7 @@ class DelayOperation: Operation {
                 interval = theInterval
 
             case .Date(let date):
-                interval = date.timeIntervalSinceNow
+            interval = Int(date.timeIntervalSinceNow)
         }
         
         guard interval > 0 else {
@@ -61,10 +61,9 @@ class DelayOperation: Operation {
             return
         }
 
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(interval * Double(NSEC_PER_SEC)))
-        dispatch_after(when, dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0)) {
+        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + .seconds(interval)) {
             // If we were cancelled, then finish() has already been called.
-            if !self.cancelled {
+            if !self.isCancelled {
                 self.finish()
             }
         }

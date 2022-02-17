@@ -21,37 +21,37 @@ class Earthquake: NSManagedObject {
     
     // MARK: Formatters
 
-    static let timestampFormatter: NSDateFormatter = {
-        let timestampFormatter = NSDateFormatter()
+    static let timestampFormatter: DateFormatter = {
+        let timestampFormatter = DateFormatter()
         
-        timestampFormatter.dateStyle = .MediumStyle
-        timestampFormatter.timeStyle = .MediumStyle
+        timestampFormatter.dateStyle = .medium
+        timestampFormatter.timeStyle = .medium
 
         return timestampFormatter
     }()
     
-    static let magnitudeFormatter: NSNumberFormatter = {
-        let magnitudeFormatter = NSNumberFormatter()
+    static let magnitudeFormatter: NumberFormatter = {
+        let magnitudeFormatter = NumberFormatter()
         
-        magnitudeFormatter.numberStyle = .DecimalStyle
+        magnitudeFormatter.numberStyle = .decimal
         magnitudeFormatter.maximumFractionDigits = 1
         magnitudeFormatter.minimumFractionDigits = 1
 
         return magnitudeFormatter
     }()
     
-    static let depthFormatter: NSLengthFormatter = {
+    static let depthFormatter: LengthFormatter = {
         
-        let depthFormatter = NSLengthFormatter()
-        depthFormatter.forPersonHeightUse = false
+        let depthFormatter = LengthFormatter()
+        depthFormatter.isForPersonHeightUse = false
 
         return depthFormatter
     }()
     
-    static let distanceFormatter: NSLengthFormatter = {
-        let distanceFormatter = NSLengthFormatter()
+    static let distanceFormatter: LengthFormatter = {
+        let distanceFormatter = LengthFormatter()
 
-        distanceFormatter.forPersonHeightUse = false
+        distanceFormatter.isForPersonHeightUse = false
         distanceFormatter.numberFormatter.maximumFractionDigits = 2
         
         return distanceFormatter
@@ -64,7 +64,7 @@ class Earthquake: NSManagedObject {
     @NSManaged var longitude: Double
     @NSManaged var name: String
     @NSManaged var magnitude: Double
-    @NSManaged var timestamp: NSDate
+    @NSManaged var timestamp: Date
     @NSManaged var depth: Double
     @NSManaged var webLink: String
     
@@ -73,6 +73,6 @@ class Earthquake: NSManagedObject {
     }
     
     var location: CLLocation {
-        return CLLocation(coordinate: coordinate, altitude: -depth, horizontalAccuracy: kCLLocationAccuracyBest, verticalAccuracy: kCLLocationAccuracyBest, timestamp: timestamp)
+        return CLLocation(coordinate: coordinate, altitude: -depth, horizontalAccuracy: kCLLocationAccuracyBest, verticalAccuracy: kCLLocationAccuracyBest, timestamp: timestamp as Date)
     }
 }

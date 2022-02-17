@@ -19,9 +19,8 @@ extension Dictionary {
             be used as the key for the value in the `Dictionary`. If the closure
             returns `nil`, then the value will be omitted from the `Dictionary`.
     */
-    init<Sequence: SequenceType where Sequence.Generator.Element == Value>(sequence: Sequence, @noescape keyMapper: Value -> Key?) {
+    init<S: Sequence>(sequence: S, keyMapper: (Value) -> Key?) where S.Element == Value {
         self.init()
-
         for item in sequence {
             if let key = keyMapper(item) {
                 self[key] = item

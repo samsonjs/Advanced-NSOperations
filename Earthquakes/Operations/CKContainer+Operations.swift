@@ -24,8 +24,8 @@ extension CKContainer {
             operation fails. If the verification was successful, this value will
         be `nil`.
     */
-    func verifyPermission(permission: CKApplicationPermissions, requestingIfNecessary shouldRequest: Bool = false, completion: NSError? -> Void) {
-        verifyAccountStatus(self, permission: permission, shouldRequest: shouldRequest, completion: completion)
+    func verifyPermission(permission: CKApplicationPermissions, requestingIfNecessary shouldRequest: Bool = false, completion: @escaping (Error?) -> Void) {
+        verifyAccountStatus(container: self, permission: permission, shouldRequest: shouldRequest, completion: completion)
     }
 }
 
@@ -33,46 +33,46 @@ extension CKContainer {
     Make these helper functions instead of helper methods, so we don't pollute
     `CKContainer`.
 */
-private func verifyAccountStatus(container: CKContainer, permission: CKApplicationPermissions, shouldRequest: Bool, completion: NSError? -> Void) {
-    container.accountStatusWithCompletionHandler { accountStatus, accountError in
-        if accountStatus == .Available {
+private func verifyAccountStatus(container: CKContainer, permission: CKApplicationPermissions, shouldRequest: Bool, completion: @escaping (Error?) -> Void) {
+    container.accountStatus { accountStatus, accountError in
+        if accountStatus == .available {
             if permission != [] {
-                verifyPermission(container, permission: permission, shouldRequest: shouldRequest, completion: completion)
+                verifyPermission(container: container, permission: permission, shouldRequest: shouldRequest, completion: completion)
             }
             else {
                 completion(nil)
             }
         }
         else {
-            let error = accountError ?? NSError(domain: CKErrorDomain, code: CKErrorCode.NotAuthenticated.rawValue, userInfo: nil)
+            let error = accountError ?? NSError(domain: CKErrorDomain, code: CKError.Code.notAuthenticated.rawValue, userInfo: nil)
             completion(error)
         }
     }
 }
 
-private func verifyPermission(container: CKContainer, permission: CKApplicationPermissions, shouldRequest: Bool, completion: NSError? -> Void) {
-    container.statusForApplicationPermission(permission) { permissionStatus, permissionError in
-        if permissionStatus == .Granted {
+private func verifyPermission(container: CKContainer, permission: CKApplicationPermissions, shouldRequest: Bool, completion: @escaping (Error?) -> Void) {
+    container.status(forApplicationPermission: permission) { permissionStatus, permissionError in
+        if permissionStatus == .granted {
             completion(nil)
         }
-        else if permissionStatus == .InitialState && shouldRequest {
-            requestPermission(container, permission: permission, completion: completion)
+        else if permissionStatus == .initialState && shouldRequest {
+            requestPermission(container: container, permission: permission, completion: completion)
         }
         else {
-            let error = permissionError ?? NSError(domain: CKErrorDomain, code: CKErrorCode.PermissionFailure.rawValue, userInfo: nil)
+            let error = permissionError ?? NSError(domain: CKErrorDomain, code: CKError.Code.permissionFailure.rawValue, userInfo: nil)
             completion(error)
         }
     }
 }
 
-private func requestPermission(container: CKContainer, permission: CKApplicationPermissions, completion: NSError? -> Void) {
-    dispatch_async(dispatch_get_main_queue()) {
+private func requestPermission(container: CKContainer, permission: CKApplicationPermissions, completion: @escaping (Error?) -> Void) {
+    DispatchQueue.main.async {
         container.requestApplicationPermission(permission) { requestStatus, requestError in
-            if requestStatus == .Granted {
+            if requestStatus == .granted {
                 completion(nil)
             }
             else {
-                let error = requestError ?? NSError(domain: CKErrorDomain, code: CKErrorCode.PermissionFailure.rawValue, userInfo: nil)
+                let error = requestError ?? NSError(domain: CKErrorDomain, code: CKError.Code.permissionFailure.rawValue, userInfo: nil)
                 completion(error)
             }
         }

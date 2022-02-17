@@ -15,15 +15,15 @@ import Foundation
 protocol OperationObserver {
     
     /// Invoked immediately prior to the `Operation`'s `execute()` method.
-    func operationDidStart(operation: Operation)
+    func operationDidStart(operation: EarthquakeOperation)
     
     /// Invoked when `Operation.produceOperation(_:)` is executed.
-    func operation(operation: Operation, didProduceOperation newOperation: NSOperation)
+    func operation(operation: EarthquakeOperation, didProduceOperation newOperation: Operation)
     
     /**
         Invoked as an `Operation` finishes, along with any errors produced during
         execution (or readiness evaluation).
     */
-    func operationDidFinish(operation: Operation, errors: [NSError])
+    func operationDidFinish(operation: EarthquakeOperation, errors: [NSError])
     
 }

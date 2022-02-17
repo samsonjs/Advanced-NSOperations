@@ -13,7 +13,7 @@ import CoreData
 private struct ParsedEarthquake {
     // MARK: Properties.
 
-    let date: NSDate
+    let date: Date
     
     let identifier, name, link: String
 
@@ -22,7 +22,7 @@ private struct ParsedEarthquake {
     // MARK: Initialization
     
     init?(feature: [String: AnyObject]) {
-        guard let earthquakeID = feature["id"] as? String where !earthquakeID.isEmpty else { return nil }
+        guard let earthquakeID = feature["id"] as? String, !earthquakeID.isEmpty else { return nil }
         identifier = earthquakeID
         
         let properties = feature["properties"] as? [String: AnyObject] ?? [:]
@@ -34,16 +34,16 @@ private struct ParsedEarthquake {
         magnitude = properties["mag"] as? Double ?? 0.0
 
         if let offset = properties["time"] as? Double {
-            date = NSDate(timeIntervalSince1970: offset / 1000)
+            date = Date(timeIntervalSince1970: offset / 1000)
         }
         else {
-            date = NSDate.distantFuture()
+            date = Date.distantFuture
         }
         
         
         let geometry = feature["geometry"] as? [String: AnyObject] ?? [:]
         
-        if let coordinates = geometry["coordinates"] as? [Double] where coordinates.count == 3 {
+        if let coordinates = geometry["coordinates"] as? [Double], coordinates.count == 3 {
             longitude = coordinates[0]
             latitude = coordinates[1]
             
@@ -59,20 +59,20 @@ private struct ParsedEarthquake {
 }
 
 /// An `Operation` to parse earthquakes out of a downloaded feed from the USGS.
-class ParseEarthquakesOperation: Operation {
-    let cacheFile: NSURL
+class ParseEarthquakesOperation: EarthquakeOperation {
+    let cacheFile: URL
     let context: NSManagedObjectContext
     
     /**
-        - parameter cacheFile: The file `NSURL` from which to load earthquake data.
+        - parameter cacheFile: The file `URL` from which to load earthquake data.
         - parameter context: The `NSManagedObjectContext` that will be used as the
                              basis for importing data. The operation will internally
                              construct a new `NSManagedObjectContext` that points
                              to the same `NSPersistentStoreCoordinator` as the
                              passed-in context.
     */
-    init(cacheFile: NSURL, context: NSManagedObjectContext) {
-        let importContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+    init(cacheFile: URL, context: NSManagedObjectContext) {
+        let importContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         importContext.persistentStoreCoordinator = context.persistentStoreCoordinator
         
         /*
@@ -90,7 +90,7 @@ class ParseEarthquakesOperation: Operation {
     }
     
     override func execute() {
-        guard let stream = NSInputStream(URL: cacheFile) else {
+        guard let stream = InputStream(url: cacheFile) else {
             finish()
             return
         }
@@ -102,35 +102,35 @@ class ParseEarthquakesOperation: Operation {
         }
         
         do {
-            let json = try NSJSONSerialization.JSONObjectWithStream(stream, options: []) as? [String: AnyObject]
+            let json = try JSONSerialization.jsonObject(with: stream, options: []) as? [String: AnyObject]
             
             if let features = json?["features"] as? [[String: AnyObject]] {
-                parse(features)
+                parse(features: features)
             }
             else {
                 finish()
             }
         }
         catch let jsonError as NSError {
-            finishWithError(jsonError)
+            finishWithError(error: jsonError)
         }
     }
     
     private func parse(features: [[String: AnyObject]]) {
-        let parsedEarthquakes = features.flatMap { ParsedEarthquake(feature: $0) }
+        let parsedEarthquakes = features.compactMap { ParsedEarthquake(feature: $0) }
         
-        context.performBlock {
+        context.perform {
             for newEarthquake in parsedEarthquakes {
-                self.insert(newEarthquake)
+                self.insert(parsed: newEarthquake)
             }
             
             let error = self.saveContext()
-            self.finishWithError(error)
+            self.finishWithError(error: error)
         }
     }
     
     private func insert(parsed: ParsedEarthquake) {
-        let earthquake = NSEntityDescription.insertNewObjectForEntityForName(Earthquake.entityName, inManagedObjectContext: context) as! Earthquake
+        let earthquake = NSEntityDescription.insertNewObject(forEntityName: Earthquake.entityName, into: context) as! Earthquake
         
         earthquake.identifier = parsed.identifier
         earthquake.timestamp = parsed.date

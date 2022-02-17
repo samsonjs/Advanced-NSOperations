@@ -14,24 +14,21 @@ import Foundation
     extended readiness requirements, as well as notify many interested parties
     about interesting operation state changes
 */
-class Operation: NSOperation {
+class EarthquakeOperation: Operation {
     
     // use the KVO mechanism to indicate that changes to "state" affect other properties as well
-    class func keyPathsForValuesAffectingIsReady() -> Set<NSObject> {
-        return ["state"]
+    override class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String> {
+        switch key {
+        case "isExecuting", "isFinished", "isReady":
+            return ["state"]
+        default:
+            return []
+        }
     }
-    
-    class func keyPathsForValuesAffectingIsExecuting() -> Set<NSObject> {
-        return ["state"]
-    }
-    
-    class func keyPathsForValuesAffectingIsFinished() -> Set<NSObject> {
-        return ["state"]
-    }
-    
+
     // MARK: State Management
     
-    private enum State: Int, Comparable {
+    fileprivate enum State: Int, Comparable {
         /// The initial state of an `Operation`.
         case Initialized
         
@@ -111,37 +108,37 @@ class Operation: NSOperation {
                 acquire the lock, then we'd be stuck waiting on our own lock. It's the
                 classic definition of deadlock.
             */
-            willChangeValueForKey("state")
+            willChangeValue(forKey: "state")
             
-            stateLock.withCriticalScope { Void -> Void in
+            stateLock.withCriticalScope { () -> Void in
                 guard _state != .Finished else {
                     return
                 }
                 
-                assert(_state.canTransitionToState(newState), "Performing invalid state transition.")
+                assert(_state.canTransitionToState(target: newState), "Performing invalid state transition.")
                 _state = newState
             }
             
-            didChangeValueForKey("state")
+            didChangeValue(forKey: "state")
         }
     }
     
     // Here is where we extend our definition of "readiness".
-    override var ready: Bool {
+    override var isReady: Bool {
         switch state {
             
             case .Initialized:
                 // If the operation has been cancelled, "isReady" should return true
-                return cancelled
+            return isCancelled
             
             case .Pending:
                 // If the operation has been cancelled, "isReady" should return true
-                guard !cancelled else {
+            guard !isCancelled else {
                     return true
                 }
                 
                 // If super isReady, conditions can be evaluated
-                if super.ready {
+            if super.isReady {
                     evaluateConditions()
                 }
                 
@@ -149,7 +146,7 @@ class Operation: NSOperation {
                 return false
             
             case .Ready:
-                return super.ready || cancelled
+            return super.isReady || isCancelled
             
             default:
                 return false
@@ -158,31 +155,31 @@ class Operation: NSOperation {
     
     var userInitiated: Bool {
         get {
-            return qualityOfService == .UserInitiated
+            return qualityOfService == .userInitiated
         }
 
         set {
             assert(state < .Executing, "Cannot modify userInitiated after execution has begun.")
 
-            qualityOfService = newValue ? .UserInitiated : .Default
+            qualityOfService = newValue ? .userInitiated : .default
         }
     }
     
-    override var executing: Bool {
+    override var isExecuting: Bool {
         return state == .Executing
     }
     
-    override var finished: Bool {
+    override var isFinished: Bool {
         return state == .Finished
     }
     
     private func evaluateConditions() {
-        assert(state == .Pending && !cancelled, "evaluateConditions() was called out-of-order")
+        assert(state == .Pending && !isCancelled, "evaluateConditions() was called out-of-order")
 
         state = .EvaluatingConditions
         
-        OperationConditionEvaluator.evaluate(conditions, operation: self) { failures in
-            self._internalErrors.appendContentsOf(failures)
+        OperationConditionEvaluator.evaluate(conditions: conditions, operation: self) { failures in
+            self._internalErrors.append(contentsOf: failures)
             self.state = .Ready
         }
     }
@@ -205,7 +202,7 @@ class Operation: NSOperation {
         observers.append(observer)
     }
     
-    override func addDependency(operation: NSOperation) {
+    override func addDependency(_ operation: Operation) {
         assert(state < .Executing, "Dependencies cannot be modified after execution has begun.")
 
         super.addDependency(operation)
@@ -218,7 +215,7 @@ class Operation: NSOperation {
         super.start()
         
         // If the operation has been cancelled, we still need to enter the "Finished" state.
-        if cancelled {
+        if isCancelled {
             finish()
         }
     }
@@ -226,11 +223,11 @@ class Operation: NSOperation {
     override final func main() {
         assert(state == .Ready, "This operation must be performed on an operation queue.")
 
-        if _internalErrors.isEmpty && !cancelled {
+        if _internalErrors.isEmpty && !isCancelled {
             state = .Executing
             
             for observer in observers {
-                observer.operationDidStart(self)
+                observer.operationDidStart(operation: self)
             }
             
             execute()
@@ -251,7 +248,7 @@ class Operation: NSOperation {
         their readiness state.
     */
     func execute() {
-        print("\(self.dynamicType) must override `execute()`.")
+        print("\(type(of: self)) must override `execute()`.")
 
         finish()
     }
@@ -265,9 +262,9 @@ class Operation: NSOperation {
         cancel()
     }
     
-    final func produceOperation(operation: NSOperation) {
+    final func produceOperation(operation: Operation) {
         for observer in observers {
-            observer.operation(self, didProduceOperation: operation)
+            observer.operation(operation: self, didProduceOperation: operation)
         }
     }
     
@@ -278,12 +275,12 @@ class Operation: NSOperation {
         This is a convenience method to simplify calling the actual `finish()`
         method. This is also useful if you wish to finish with an error provided
         by the system frameworks. As an example, see `DownloadEarthquakesOperation`
-        for how an error from an `NSURLSession` is passed along via the
+        for how an error from an `URLSession` is passed along via the
         `finishWithError()` method.
     */
     final func finishWithError(error: NSError?) {
         if let error = error {
-            finish([error])
+            finish(errors: [error])
         }
         else {
             finish()
@@ -301,10 +298,10 @@ class Operation: NSOperation {
             state = .Finishing
             
             let combinedErrors = _internalErrors + errors
-            finished(combinedErrors)
+            finished(errors: combinedErrors)
             
             for observer in observers {
-                observer.operationDidFinish(self, errors: combinedErrors)
+                observer.operationDidFinish(operation: self, errors: combinedErrors)
             }
             
             state = .Finished
@@ -339,10 +336,10 @@ class Operation: NSOperation {
 }
 
 // Simple operator functions to simplify the assertions used above.
-private func <(lhs: Operation.State, rhs: Operation.State) -> Bool {
+private func <(lhs: EarthquakeOperation.State, rhs: EarthquakeOperation.State) -> Bool {
     return lhs.rawValue < rhs.rawValue
 }
 
-private func ==(lhs: Operation.State, rhs: Operation.State) -> Bool {
+private func ==(lhs: EarthquakeOperation.State, rhs: EarthquakeOperation.State) -> Bool {
     return lhs.rawValue == rhs.rawValue
 }

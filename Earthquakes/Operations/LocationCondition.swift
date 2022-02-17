@@ -30,11 +30,11 @@ struct LocationCondition: OperationCondition {
         self.usage = usage
     }
     
-    func dependencyForOperation(operation: Operation) -> NSOperation? {
+    func dependencyForOperation(operation: EarthquakeOperation) -> Operation? {
         return LocationPermissionOperation(usage: usage)
     }
     
-    func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
+    func evaluateForOperation(operation: EarthquakeOperation, completion: (OperationConditionResult) -> Void) {
         let enabled = CLLocationManager.locationServicesEnabled()
         let actual = CLLocationManager.authorizationStatus()
         
@@ -42,11 +42,11 @@ struct LocationCondition: OperationCondition {
 
         // There are several factors to consider when evaluating this condition
         switch (enabled, usage, actual) {
-            case (true, _, .AuthorizedAlways):
+        case (true, _, .authorizedAlways):
                 // The service is enabled, and we have "Always" permission -> condition satisfied.
                 break
 
-            case (true, .WhenInUse, .AuthorizedWhenInUse):
+        case (true, .WhenInUse, .authorizedWhenInUse):
                 /*
                     The service is enabled, and we have and need "WhenInUse"
                     permission -> condition satisfied.
@@ -63,9 +63,9 @@ struct LocationCondition: OperationCondition {
                     The last case would happen if this condition were wrapped in a `SilentCondition`.
                 */
                 error = NSError(code: .ConditionFailed, userInfo: [
-                    OperationConditionKey: self.dynamicType.name,
-                    self.dynamicType.locationServicesEnabledKey: enabled,
-                    self.dynamicType.authorizationStatusKey: Int(actual.rawValue)
+                    OperationConditionKey: type(of: self).name,
+                    type(of: self).locationServicesEnabledKey: enabled,
+                    type(of: self).authorizationStatusKey: Int(actual.rawValue)
                 ])
         }
         
@@ -82,7 +82,7 @@ struct LocationCondition: OperationCondition {
     A private `Operation` that will request permission to access the user's location,
     if permission has not already been granted.
 */
-private class LocationPermissionOperation: Operation {
+private class LocationPermissionOperation: EarthquakeOperation {
     let usage: LocationCondition.Usage
     var manager: CLLocationManager?
     
@@ -93,7 +93,7 @@ private class LocationPermissionOperation: Operation {
             This is an operation that potentially presents an alert so it should
             be mutually exclusive with anything else that presents an alert.
         */
-        addCondition(AlertPresentation())
+        addCondition(condition: AlertPresentation())
     }
     
     override func execute() {
@@ -102,8 +102,8 @@ private class LocationPermissionOperation: Operation {
             need to handle the "upgrade" (.WhenInUse -> .Always) case.
         */
         switch (CLLocationManager.authorizationStatus(), usage) {
-            case (.NotDetermined, _), (.AuthorizedWhenInUse, .Always):
-                dispatch_async(dispatch_get_main_queue()) {
+        case (.notDetermined, _), (.authorizedWhenInUse, .Always):
+                DispatchQueue.main.async {
                     self.requestPermission()
                 }
 
@@ -129,14 +129,15 @@ private class LocationPermissionOperation: Operation {
         }
         
         // This is helpful when developing the app.
-        assert(NSBundle.mainBundle().objectForInfoDictionaryKey(key) != nil, "Requesting location permission requires the \(key) key in your Info.plist")
+        assert(Bundle.main.object(forInfoDictionaryKey: key) != nil, "Requesting location permission requires the \(key) key in your Info.plist")
     }
     
 }
 
 extension LocationPermissionOperation: CLLocationManagerDelegate {
-    @objc func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if manager == self.manager && executing && status != .NotDetermined {
+    @available(iOS 14.0, *)
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if manager == self.manager && isExecuting && manager.authorizationStatus != .notDetermined {
             finish()
         }
     }

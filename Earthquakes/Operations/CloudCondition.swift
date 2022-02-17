@@ -36,16 +36,16 @@ struct CloudContainerCondition: OperationCondition {
         self.permission = permission
     }
     
-    func dependencyForOperation(operation: Operation) -> NSOperation? {
+    func dependencyForOperation(operation: EarthquakeOperation) -> Operation? {
         return CloudKitPermissionOperation(container: container, permission: permission)
     }
     
-    func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
-        container.verifyPermission(permission, requestingIfNecessary: false) { error in
+    func evaluateForOperation(operation: EarthquakeOperation, completion: @escaping (OperationConditionResult) -> Void) {
+        container.verifyPermission(permission: permission, requestingIfNecessary: false) { error in
             if let error = error {
                 let conditionError = NSError(code: .ConditionFailed, userInfo: [
-                    OperationConditionKey: self.dynamicType.name,
-                    self.dynamicType.containerKey: self.container,
+                    OperationConditionKey: type(of: self).name,
+                    type(of: self).containerKey: self.container,
                     NSUnderlyingErrorKey: error
                 ])
 
@@ -62,7 +62,7 @@ struct CloudContainerCondition: OperationCondition {
     This operation asks the user for permission to use CloudKit, if necessary.
     If permission has already been granted, this operation will quickly finish.
 */
-private class CloudKitPermissionOperation: Operation {
+private class CloudKitPermissionOperation: EarthquakeOperation {
     let container: CKContainer
     let permission: CKApplicationPermissions
     
@@ -77,13 +77,13 @@ private class CloudKitPermissionOperation: Operation {
                 an alert, so it should not run at the same time as anything else
                 that presents an alert.
             */
-            addCondition(AlertPresentation())
+            addCondition(condition: AlertPresentation())
         }
     }
     
     override func execute() {
-        container.verifyPermission(permission, requestingIfNecessary: true) { error in
-            self.finishWithError(error)
+        container.verifyPermission(permission: permission, requestingIfNecessary: true) { error in
+            self.finishWithError(error: error as NSError?)
         }
     }
     

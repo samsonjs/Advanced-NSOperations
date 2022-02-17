@@ -19,26 +19,26 @@ struct ReachabilityCondition: OperationCondition {
     static let name = "Reachability"
     static let isMutuallyExclusive = false
     
-    let host: NSURL
+    let host: URL
     
     
-    init(host: NSURL) {
+    init(host: URL) {
         self.host = host
     }
     
-    func dependencyForOperation(operation: Operation) -> NSOperation? {
+    func dependencyForOperation(operation: EarthquakeOperation) -> Operation? {
         return nil
     }
     
-    func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
-        ReachabilityController.requestReachability(host) { reachable in
+    func evaluateForOperation(operation: EarthquakeOperation, completion: @escaping (OperationConditionResult) -> Void) {
+        ReachabilityController.requestReachability(url: host) { reachable in
             if reachable {
                 completion(.Satisfied)
             }
             else {
                 let error = NSError(code: .ConditionFailed, userInfo: [
-                    OperationConditionKey: self.dynamicType.name,
-                    self.dynamicType.hostKey: self.host
+                    OperationConditionKey: type(of: self).name,
+                    type(of: self).hostKey: self.host
                 ])
                 
                 completion(.Failed(error))
@@ -52,16 +52,16 @@ struct ReachabilityCondition: OperationCondition {
 private class ReachabilityController {
     static var reachabilityRefs = [String: SCNetworkReachability]()
 
-    static let reachabilityQueue = dispatch_queue_create("Operations.Reachability", DISPATCH_QUEUE_SERIAL)
+    static let reachabilityQueue = DispatchQueue(label: "Operations.Reachability")
     
-    static func requestReachability(url: NSURL, completionHandler: (Bool) -> Void) {
+    static func requestReachability(url: URL, completionHandler: @escaping (Bool) -> Void) {
         if let host = url.host {
-            dispatch_async(reachabilityQueue) {
+            reachabilityQueue.async {
                 var ref = self.reachabilityRefs[host]
 
                 if ref == nil {
                     let hostString = host as NSString
-                    ref = SCNetworkReachabilityCreateWithName(nil, hostString.UTF8String)
+                    ref = SCNetworkReachabilityCreateWithName(nil, hostString.utf8String!)
                 }
                 
                 if let ref = ref {
@@ -76,7 +76,7 @@ private class ReachabilityController {
                             such as whether or not the connection would require
                             VPN, a cellular connection, etc.
                         */
-                        reachable = flags.contains(.Reachable)
+                        reachable = flags.contains(.reachable)
                     }
                     completionHandler(reachable)
                 }

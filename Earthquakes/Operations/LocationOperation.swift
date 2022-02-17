@@ -15,25 +15,25 @@ import CoreLocation
     prompt for `WhenInUse` location authorization, if the app does not already
     have it.
 */
-class LocationOperation: Operation, CLLocationManagerDelegate {
+class LocationOperation: EarthquakeOperation, CLLocationManagerDelegate {
     // MARK: Properties
     
     private let accuracy: CLLocationAccuracy
     private var manager: CLLocationManager?
-    private let handler: CLLocation -> Void
+    private let handler: (CLLocation) -> Void
     
     // MARK: Initialization
  
-    init(accuracy: CLLocationAccuracy, locationHandler: CLLocation -> Void) {
+    init(accuracy: CLLocationAccuracy, locationHandler: @escaping (CLLocation) -> Void) {
         self.accuracy = accuracy
         self.handler = locationHandler
         super.init()
-        addCondition(LocationCondition(usage: .WhenInUse))
-        addCondition(MutuallyExclusive<CLLocationManager>())
+        addCondition(condition: LocationCondition(usage: .WhenInUse))
+        addCondition(condition: MutuallyExclusive<CLLocationManager>())
     }
     
     override func execute() {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             /*
                 `CLLocationManager` needs to be created on a thread with an active
                 run loop, so for simplicity we do this on the main queue.
@@ -48,7 +48,7 @@ class LocationOperation: Operation, CLLocationManagerDelegate {
     }
     
     override func cancel() {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.stopLocationUpdates()
             super.cancel()
         }
@@ -60,9 +60,9 @@ class LocationOperation: Operation, CLLocationManagerDelegate {
     }
     
     // MARK: CLLocationManagerDelegate
-    
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last where location.horizontalAccuracy <= accuracy else {
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last, location.horizontalAccuracy <= accuracy else {
             return
         }
         
@@ -71,8 +71,8 @@ class LocationOperation: Operation, CLLocationManagerDelegate {
         finish()
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    private func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         stopLocationUpdates()
-        finishWithError(error)
+        finishWithError(error: error)
     }
 }
