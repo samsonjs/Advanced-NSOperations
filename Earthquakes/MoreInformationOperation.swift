@@ -35,7 +35,9 @@ class MoreInformationOperation: EarthquakeOperation {
     
     private func showSafariViewController() {
         if let context = UIApplication.shared.keyWindow?.rootViewController {
-            let safari = SFSafariViewController(url: URL, entersReaderIfAvailable: false)
+            let configuration = SFSafariViewController.Configuration()
+            configuration.entersReaderIfAvailable = false
+            let safari = SFSafariViewController(url: URL, configuration: configuration)
             safari.delegate = self
             context.present(safari, animated: true, completion: nil)
         }
