@@ -36,7 +36,7 @@ struct LocationCondition: OperationCondition {
     
     func evaluateForOperation(operation: EarthquakeOperation, completion: (OperationConditionResult) -> Void) {
         let enabled = CLLocationManager.locationServicesEnabled()
-        let actual = CLLocationManager.authorizationStatus()
+        let actual = CLLocationManager().authorizationStatus
         
         var error: NSError?
 
@@ -101,7 +101,7 @@ private class LocationPermissionOperation: EarthquakeOperation {
             Not only do we need to handle the "Not Determined" case, but we also
             need to handle the "upgrade" (.WhenInUse -> .Always) case.
         */
-        switch (CLLocationManager.authorizationStatus(), usage) {
+        switch (CLLocationManager().authorizationStatus, usage) {
         case (.notDetermined, _), (.authorizedWhenInUse, .Always):
                 DispatchQueue.main.async {
                     self.requestPermission()

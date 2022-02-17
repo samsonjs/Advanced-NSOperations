@@ -345,6 +345,7 @@
 					551B9BDC1AEB1C9700302388 = {
 						CreatedOnToolsVersion = 6.3;
 						DevelopmentTeam = X45WPY5JFZ;
+						LastSwiftMigration = 1320;
 						SystemCapabilities = {
 							com.apple.iCloud = {
 								enabled = 1;
@@ -581,7 +582,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.samhuri.apple-samplecode.Earthquakes";
 				PRODUCT_NAME = Earthquakes;
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -599,7 +600,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.samhuri.apple-samplecode.Earthquakes";
 				PRODUCT_NAME = Earthquakes;
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

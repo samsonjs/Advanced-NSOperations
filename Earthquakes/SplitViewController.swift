@@ -14,7 +14,7 @@ class SplitViewController: UISplitViewController {
     override func awakeFromNib() {
         super.awakeFromNib()
     
-        preferredDisplayMode = .allVisible
+        preferredDisplayMode = .oneBesideSecondary
         
         delegate = self
     }

@@ -24,7 +24,7 @@ extension CKContainer {
             operation fails. If the verification was successful, this value will
         be `nil`.
     */
-    func verifyPermission(permission: CKApplicationPermissions, requestingIfNecessary shouldRequest: Bool = false, completion: @escaping (Error?) -> Void) {
+    func verifyPermission(permission: CKContainer.ApplicationPermissions, requestingIfNecessary shouldRequest: Bool = false, completion: @escaping (Error?) -> Void) {
         verifyAccountStatus(container: self, permission: permission, shouldRequest: shouldRequest, completion: completion)
     }
 }
@@ -33,7 +33,7 @@ extension CKContainer {
     Make these helper functions instead of helper methods, so we don't pollute
     `CKContainer`.
 */
-private func verifyAccountStatus(container: CKContainer, permission: CKApplicationPermissions, shouldRequest: Bool, completion: @escaping (Error?) -> Void) {
+private func verifyAccountStatus(container: CKContainer, permission: CKContainer.ApplicationPermissions, shouldRequest: Bool, completion: @escaping (Error?) -> Void) {
     container.accountStatus { accountStatus, accountError in
         if accountStatus == .available {
             if permission != [] {
@@ -50,7 +50,7 @@ private func verifyAccountStatus(container: CKContainer, permission: CKApplicati
     }
 }
 
-private func verifyPermission(container: CKContainer, permission: CKApplicationPermissions, shouldRequest: Bool, completion: @escaping (Error?) -> Void) {
+private func verifyPermission(container: CKContainer, permission: CKContainer.ApplicationPermissions, shouldRequest: Bool, completion: @escaping (Error?) -> Void) {
     container.status(forApplicationPermission: permission) { permissionStatus, permissionError in
         if permissionStatus == .granted {
             completion(nil)
@@ -65,7 +65,7 @@ private func verifyPermission(container: CKContainer, permission: CKApplicationP
     }
 }
 
-private func requestPermission(container: CKContainer, permission: CKApplicationPermissions, completion: @escaping (Error?) -> Void) {
+private func requestPermission(container: CKContainer, permission: CKContainer.ApplicationPermissions, completion: @escaping (Error?) -> Void) {
     DispatchQueue.main.async {
         container.requestApplicationPermission(permission) { requestStatus, requestError in
             if requestStatus == .granted {
