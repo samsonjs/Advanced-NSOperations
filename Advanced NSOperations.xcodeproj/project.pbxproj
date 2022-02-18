@@ -187,20 +187,20 @@
 		551B9C0F1AEBE53400302388 /* Conditions */ = {
 			isa = PBXGroup;
 			children = (
-				553F2D651B00041100BF4093 /* OperationErrors.swift */,
-				551B9C041AEB1CC800302388 /* OperationCondition.swift */,
-				55857B331AF2055600219D5A /* SilentCondition.swift */,
+				55727FAB1AF216C800EC6916 /* CalendarCondition.swift */,
+				551B9C0B1AEBE4F300302388 /* CloudCondition.swift */,
+				553C5AC61AF6D2EB002FC47A /* HealthCondition.swift */,
+				55857B311AF203C100219D5A /* LocationCondition.swift */,
+				55857B381AF20CC700219D5A /* MutuallyExclusive.swift */,
 				55E702721AFE95C00032742F /* NegatedCondition.swift */,
 				55857B3E1AF2116600219D5A /* NoCancelledDependencies.swift */,
-				55857B381AF20CC700219D5A /* MutuallyExclusive.swift */,
-				551B9C0D1AEBE52800302388 /* ReachabilityCondition.swift */,
-				551B9C0B1AEBE4F300302388 /* CloudCondition.swift */,
+				551B9C041AEB1CC800302388 /* OperationCondition.swift */,
+				553F2D651B00041100BF4093 /* OperationErrors.swift */,
 				551B9C101AEBE54D00302388 /* PassbookCondition.swift */,
-				55857B311AF203C100219D5A /* LocationCondition.swift */,
-				55727FAB1AF216C800EC6916 /* CalendarCondition.swift */,
 				553C5AC41AF6C774002FC47A /* PhotosCondition.swift */,
-				553C5AC61AF6D2EB002FC47A /* HealthCondition.swift */,
+				551B9C0D1AEBE52800302388 /* ReachabilityCondition.swift */,
 				55727FAF1AF276A900EC6916 /* RemoteNotificationCondition.swift */,
+				55857B331AF2055600219D5A /* SilentCondition.swift */,
 				55CD4D261AF6709400E3A9E3 /* UserNotificationCondition.swift */,
 			);
 			name = Conditions;
@@ -227,8 +227,8 @@
 		553F50071B0817BB005F991E /* Observers */ = {
 			isa = PBXGroup;
 			children = (
-				553F50051B081760005F991E /* EarthquakeOperationObserver.swift */,
 				553F50081B0817D2005F991E /* BlockObserver.swift */,
+				553F50051B081760005F991E /* EarthquakeOperationObserver.swift */,
 				55AD643C1B128CC3000EF5CB /* TimeoutObserver.swift */,
 			);
 			name = Observers;
@@ -277,12 +277,12 @@
 		55857B301AF1E59900219D5A /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				553F50131B0832D2005F991E /* DelayOperation.swift */,
 				55857B3A1AF20DE800219D5A /* EarthquakeBlockOperation.swift */,
 				551B9C021AEB1CA900302388 /* EarthquakeOperation.swift */,
 				55727FB11AF2798C00EC6916 /* GroupOperation.swift */,
-				55727FB91AF2849E00EC6916 /* URLSessionTaskOperation.swift */,
 				553F50031B07FB5E005F991E /* LocationOperation.swift */,
-				553F50131B0832D2005F991E /* DelayOperation.swift */,
+				55727FB91AF2849E00EC6916 /* URLSessionTaskOperation.swift */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -290,10 +290,10 @@
 		55857B371AF2077A00219D5A /* Convenience Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				551344C31B02D7BA004A1569 /* Dictionary+Operations.swift */,
-				55727FB31AF27BDB00EC6916 /* NSOperation+Operations.swift */,
-				5521B4811B700C87007089CE /* NSLock+Operations.swift */,
 				55857B351AF2077700219D5A /* CKContainer+Operations.swift */,
+				551344C31B02D7BA004A1569 /* Dictionary+Operations.swift */,
+				5521B4811B700C87007089CE /* NSLock+Operations.swift */,
+				55727FB31AF27BDB00EC6916 /* NSOperation+Operations.swift */,
 				551344C11B02D34A004A1569 /* UIUserNotifications+Operations.swift */,
 			);
 			name = "Convenience Extensions";
