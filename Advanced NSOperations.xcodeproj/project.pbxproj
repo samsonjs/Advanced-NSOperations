@@ -20,7 +20,7 @@
 		55817C3A1B18FDF8001C0CE2 /* OperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B9C061AEB2D7800302388 /* OperationQueue.swift */; };
 		55817C3B1B18FDF8001C0CE2 /* ExclusivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CD4D201AF5C05300E3A9E3 /* ExclusivityController.swift */; };
 		55817C3C1B18FDF8001C0CE2 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B9C021AEB1CA900302388 /* Operation.swift */; };
-		55817C3D1B18FDF8001C0CE2 /* BlockOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55857B3A1AF20DE800219D5A /* BlockOperation.swift */; };
+		55817C3D1B18FDF8001C0CE2 /* EarthquakeBlockOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55857B3A1AF20DE800219D5A /* EarthquakeBlockOperation.swift */; };
 		55817C3E1B18FDF8001C0CE2 /* GroupOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55727FB11AF2798C00EC6916 /* GroupOperation.swift */; };
 		55817C3F1B18FDF8001C0CE2 /* URLSessionTaskOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55727FB91AF2849E00EC6916 /* URLSessionTaskOperation.swift */; };
 		55817C401B18FDF8001C0CE2 /* LocationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F50031B07FB5E005F991E /* LocationOperation.swift */; };
@@ -110,7 +110,7 @@
 		55857B331AF2055600219D5A /* SilentCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SilentCondition.swift; sourceTree = "<group>"; };
 		55857B351AF2077700219D5A /* CKContainer+Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CKContainer+Operations.swift"; sourceTree = "<group>"; };
 		55857B381AF20CC700219D5A /* MutuallyExclusive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutuallyExclusive.swift; sourceTree = "<group>"; };
-		55857B3A1AF20DE800219D5A /* BlockOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockOperation.swift; sourceTree = "<group>"; };
+		55857B3A1AF20DE800219D5A /* EarthquakeBlockOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarthquakeBlockOperation.swift; sourceTree = "<group>"; };
 		55857B3E1AF2116600219D5A /* NoCancelledDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoCancelledDependencies.swift; sourceTree = "<group>"; };
 		55AD643C1B128CC3000EF5CB /* TimeoutObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeoutObserver.swift; sourceTree = "<group>"; };
 		55CD4D201AF5C05300E3A9E3 /* ExclusivityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExclusivityController.swift; sourceTree = "<group>"; };
@@ -276,7 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				551B9C021AEB1CA900302388 /* Operation.swift */,
-				55857B3A1AF20DE800219D5A /* BlockOperation.swift */,
+				55857B3A1AF20DE800219D5A /* EarthquakeBlockOperation.swift */,
 				55727FB11AF2798C00EC6916 /* GroupOperation.swift */,
 				55727FB91AF2849E00EC6916 /* URLSessionTaskOperation.swift */,
 				553F50031B07FB5E005F991E /* LocationOperation.swift */,
@@ -355,6 +355,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -427,7 +428,7 @@
 				55E702681AFE61700032742F /* Earthquake.swift in Sources */,
 				55817C4F1B18FDF8001C0CE2 /* CalendarCondition.swift in Sources */,
 				55817C481B18FDF8001C0CE2 /* NegatedCondition.swift in Sources */,
-				55817C3D1B18FDF8001C0CE2 /* BlockOperation.swift in Sources */,
+				55817C3D1B18FDF8001C0CE2 /* EarthquakeBlockOperation.swift in Sources */,
 				55817C471B18FDF8001C0CE2 /* SilentCondition.swift in Sources */,
 				55E7021D1AFC38920032742F /* EarthquakeTableViewController.swift in Sources */,
 				55817C451B18FDF8001C0CE2 /* OperationErrors.swift in Sources */,

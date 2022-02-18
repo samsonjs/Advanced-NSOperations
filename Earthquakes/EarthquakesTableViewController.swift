@@ -64,24 +64,25 @@ class EarthquakesTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         /*
-            Instead of performing the segue directly, we can wrap it in a `BlockOperation`.
-            This allows us to attach conditions to the operation. For example, you
-            could make it so that you could only perform the segue if the network
-            is reachable and you have access to the user's Photos library.
+            Instead of performing the segue directly, we can wrap it in a
+            `EarthquakeBlockOperation`. This allows us to attach conditions to the
+            operation. For example, you could make it so that you could only perform
+            the segue if the network is reachable and you have access to the user's
+            Photos library.
             
             If you decide to use this pattern in your apps, choose conditions that
             are sensible and do not place onerous requirements on the user.
             
-            It's also worth noting that the Observer attached to the `BlockOperation`
-            will cause the tableview row to be deselected automatically if the
-            `Operation` fails.
+            It's also worth noting that the Observer attached to the
+            `EarthquakeBlockOperation` will cause the tableview row to be deselected
+            automatically if the `EarthquakeOperation` fails.
             
             You may choose to add your own observer to introspect the errors reported
             as the operation finishes. Doing so would allow you to present a message
             to the user about why you were unable to perform the requested action.
         */
         
-        let operation = BlockOperation {
+        let operation = EarthquakeBlockOperation {
             self.performSegueWithIdentifier("showEarthquake", sender: nil)
         }
         

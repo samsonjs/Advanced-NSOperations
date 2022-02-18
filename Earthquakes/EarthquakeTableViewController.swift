@@ -92,7 +92,7 @@ class EarthquakeTableViewController: UITableViewController {
             an `Operation`, we can make it mutually exclusive with other operations
             that modify the view controller hierarchy.
         */
-        let shareOperation = BlockOperation { (continuation: Void -> Void) in
+        let shareOperation = EarthquakeBlockOperation { (continuation: Void -> Void) in
             dispatch_async(dispatch_get_main_queue()) {
                 let shareSheet = UIActivityViewController(activityItems: items, applicationActivities: nil)
                 

@@ -12,7 +12,7 @@ import Foundation
 typealias OperationBlock = (Void -> Void) -> Void
 
 /// A sublcass of `Operation` to execute a closure.
-class BlockOperation: Operation {
+class EarthquakeBlockOperation: Operation {
     private let block: OperationBlock?
     
     /**
