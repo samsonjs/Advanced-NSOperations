@@ -89,7 +89,7 @@ class EarthquakeTableViewController: UITableViewController {
 
         /*
             We could present the share sheet manually, but by putting it inside
-            an `Operation`, we can make it mutually exclusive with other operations
+            an `EarthquakeOperation`, we can make it mutually exclusive with other operations
             that modify the view controller hierarchy.
         */
         let shareOperation = EarthquakeBlockOperation { (continuation: @escaping () -> Void) in

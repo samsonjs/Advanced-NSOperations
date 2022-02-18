@@ -9,13 +9,13 @@ Contains the code related to automatic background tasks
 import UIKit
 
 /**
-    `BackgroundObserver` is an `OperationObserver` that will automatically begin
-    and end a background task if the application transitions to the background.
-    This would be useful if you had a vital `Operation` whose execution *must* complete,
-    regardless of the activation state of the app. Some kinds network connections
-    may fall in to this category, for example.
+    `BackgroundObserver` is an `EarthquakeOperationObserver` that will
+    automatically begin and end a background task if the application transitions to the
+    background. This would be useful if you had a vital `EarthquakeOperation`
+    whose execution *must* complete, regardless of the activation state of the app.
+    Some kinds network connections may fall in to this category, for example.
 */
-class BackgroundObserver: NSObject, OperationObserver {
+class BackgroundObserver: NSObject, EarthquakeOperationObserver {
     // MARK: Properties
 
     private var identifier = UIBackgroundTaskIdentifier.invalid

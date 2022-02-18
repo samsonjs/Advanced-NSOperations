@@ -8,7 +8,7 @@ This file sets up the operations to download and parse earthquake data. It will 
 
 import CoreData
 
-/// A composite `Operation` to both download and parse earthquake data.
+/// A composite `EarthquakeOperation` to both download and parse earthquake data.
 class GetEarthquakesOperation: GroupOperation {
     // MARK: Properties
     

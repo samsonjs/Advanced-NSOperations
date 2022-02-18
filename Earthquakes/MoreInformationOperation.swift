@@ -9,7 +9,7 @@ This file contains the code to present more information about an earthquake as a
 import Foundation
 import SafariServices
 
-/// An `Operation` to display an `URL` in an app-modal `SFSafariViewController`.
+/// An `EarthquakeOperation` to display an `URL` in an app-modal `SFSafariViewController`.
 class MoreInformationOperation: EarthquakeOperation {
     // MARK: Properties
 

@@ -10,9 +10,9 @@ import Foundation
 
 /**
     The `BlockObserver` is a way to attach arbitrary blocks to significant events
-    in an `Operation`'s lifecycle.
+    in an `EarthquakeOperation`'s lifecycle.
 */
-struct BlockObserver: OperationObserver {
+struct BlockObserver: EarthquakeOperationObserver {
     // MARK: Properties
     
     private let startHandler: ((EarthquakeOperation) -> Void)?

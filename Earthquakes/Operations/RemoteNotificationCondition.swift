@@ -68,7 +68,7 @@ struct RemoteNotificationCondition: OperationCondition {
 }
 
 /**
-    A private `Operation` to request a push notification token from the `UIApplication`.
+    A private `EarthquakeOperation` to request a push notification token from the `UIApplication`.
     
     - note: This operation is used for *both* the generated dependency **and**
         condition evaluation, since there is no "easy" way to retrieve the push

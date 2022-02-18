@@ -3,14 +3,14 @@ Copyright (C) 2015 Apple Inc. All Rights Reserved.
 See LICENSE.txt for this sample’s licensing information
 
 Abstract:
-A convenient extension to Foundation.NSOperation.
+A convenient extension to Foundation.Operation.
 */
 
 import Foundation
 
 extension Operation {
     /**
-        Add a completion block to be executed after the `NSOperation` enters the
+        Add a completion block to be executed after the `Operation` enters the
         "finished" state.
     */
     func addCompletionBlock(block: @escaping () -> Void) {

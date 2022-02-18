@@ -9,15 +9,15 @@ This file shows how to make an operation that efficiently waits.
 import Foundation
 
 /**
-    `DelayOperation` is an `Operation` that will simply wait for a given time
-    interval, or until a specific `NSDate`.
+    `DelayOperation` is an `EarthquakeOperation` that will simply wait for a
+    given time interval, or until a specific `Date`.
 
     It is important to note that this operation does **not** use the `sleep()`
     function, since that is inefficient and blocks the thread on which it is called.
-    Instead, this operation uses `dispatch_after` to know when the appropriate amount
-    of time has passed.
+    Instead, this operation uses `DispatchQueue.asyncAfter` to know
+    when the appropriate amount of time has passed.
 
-    If the interval is negative, or the `NSDate` is in the past, then this operation
+    If the interval is negative, or the `Date` is in the past, then this operation
     immediately finishes.
 */
 class DelayOperation: EarthquakeOperation {

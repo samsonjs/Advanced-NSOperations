@@ -3,7 +3,7 @@ Copyright (C) 2015 Apple Inc. All Rights Reserved.
 See LICENSE.txt for this sample’s licensing information
 
 Abstract:
-This code shows how to create a simple subclass of Operation.
+This code shows how to create a simple subclass of EarthquakeOperation.
 */
 
 import Foundation

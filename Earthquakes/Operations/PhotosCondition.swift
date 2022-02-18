@@ -38,7 +38,7 @@ struct PhotosCondition: OperationCondition {
 }
 
 /**
-    A private `Operation` that will request access to the user's Photos, if it
+    A private `EarthquakeOperation` that will request access to the user's Photos, if it
     has not already been granted.
 */
 private class PhotosPermissionOperation: EarthquakeOperation {

@@ -10,10 +10,10 @@ import Foundation
 import CoreLocation
 
 /**
-    `LocationOperation` is an `Operation` subclass to do a "one-shot" request to
-    get the user's current location, with a desired accuracy. This operation will
-    prompt for `WhenInUse` location authorization, if the app does not already
-    have it.
+    `LocationOperation` is an `EarthquakeOperation` subclass to do
+    a "one-shot" request to get the user's current location, with a desired accuracy.
+    This operation will prompt for `WhenInUse` location authorization, if the app
+    does not already have it.
 */
 class LocationOperation: EarthquakeOperation, CLLocationManagerDelegate {
     // MARK: Properties

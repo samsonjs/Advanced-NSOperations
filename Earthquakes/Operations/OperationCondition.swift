@@ -3,7 +3,7 @@ Copyright (C) 2015 Apple Inc. All Rights Reserved.
 See LICENSE.txt for this sample’s licensing information
 
 Abstract:
-This file contains the fundamental logic relating to Operation conditions.
+This file contains the fundamental logic relating to EarthquakeOperation conditions.
 */
 
 import Foundation
@@ -32,9 +32,9 @@ protocol OperationCondition {
         operation is executed first. Use this method to return an operation that
         (for example) asks for permission to perform the operation
         
-        - parameter operation: The `Operation` to which the Condition has been added.
-        - returns: An `NSOperation`, if a dependency should be automatically added. Otherwise, `nil`.
-        - note: Only a single operation may be returned as a dependency. If you
+        - Parameter operation: The `EarthquakeOperation` to which the Condition has been added.
+        - Returns: An `Operation`, if a dependency should be automatically added. Otherwise, `nil`.
+        - Note: Only a single operation may be returned as a dependency. If you
             find that you need to return multiple operations, then you should be
             expressing that as multiple conditions. Alternatively, you could return
             a single `GroupOperation` that executes multiple operations internally.

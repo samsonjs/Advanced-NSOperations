@@ -9,7 +9,7 @@ This file shows how operations can be composed together to form new operations.
 import Foundation
 
 /**
-    A subclass of `Operation` that executes zero or more operations as part of its
+    A subclass of `EarthquakeOperation` that executes zero or more operations as part of its
     own execution. This class of operation is very useful for abstracting several
     smaller operations into a larger operation. As an example, the `GetEarthquakesOperation`
     is composed of both a `DownloadEarthquakesOperation` and a `ParseEarthquakesOperation`.

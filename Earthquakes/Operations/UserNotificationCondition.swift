@@ -82,7 +82,7 @@ struct UserNotificationCondition: OperationCondition {
 }
 
 /**
-    A private `Operation` subclass to register a `UIUserNotificationSettings`
+    A private `EarthquakeOperation` subclass to register a `UIUserNotificationSettings`
     object with a `UIApplication`, prompting the user for permission if necessary.
 */
 private class UserNotificationPermissionOperation: EarthquakeOperation {

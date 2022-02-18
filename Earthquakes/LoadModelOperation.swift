@@ -9,7 +9,7 @@ This file contains the code to create the Core Data stack.
 import CoreData
 
 /**
-    An `Operation` subclass that loads the Core Data stack. If this operation fails,
+    An `EarthquakeOperation` subclass that loads the Core Data stack. If this operation fails,
     it will produce an `AlertOperation` that will offer to retry the operation.
 */
 class LoadModelOperation: EarthquakeOperation {

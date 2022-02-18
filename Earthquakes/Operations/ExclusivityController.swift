@@ -10,9 +10,10 @@ import Foundation
 
 /**
     `ExclusivityController` is a singleton to keep track of all the in-flight
-    `Operation` instances that have declared themselves as requiring mutual exclusivity.
-    We use a singleton because mutual exclusivity must be enforced across the entire
-    app, regardless of the `OperationQueue` on which an `Operation` was executed.
+    `EarthquakeOperation` instances that have declared themselves as requiring
+    mutual exclusivity. We use a singleton because mutual exclusivity must be enforced
+    across the entire app, regardless of the `EarthquakeOperationQueue` on which an
+    `EarthquakeOperation` was executed.
 */
 class ExclusivityController {
     static let sharedExclusivityController = ExclusivityController()

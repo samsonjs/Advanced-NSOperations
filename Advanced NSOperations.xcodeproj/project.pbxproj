@@ -19,13 +19,13 @@
 		553F50161B08E98A005F991E /* LoadModelOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F50151B08E98A005F991E /* LoadModelOperation.swift */; };
 		55817C3A1B18FDF8001C0CE2 /* EarthquakeOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B9C061AEB2D7800302388 /* EarthquakeOperationQueue.swift */; };
 		55817C3B1B18FDF8001C0CE2 /* ExclusivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CD4D201AF5C05300E3A9E3 /* ExclusivityController.swift */; };
-		55817C3D1B18FDF8001C0CE2 /* EarthquakeBlockOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55857B3A1AF20DE800219D5A /* EarthquakeBlockOperation.swift */; };
 		55817C3C1B18FDF8001C0CE2 /* EarthquakeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B9C021AEB1CA900302388 /* EarthquakeOperation.swift */; };
+		55817C3D1B18FDF8001C0CE2 /* EarthquakeBlockOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55857B3A1AF20DE800219D5A /* EarthquakeBlockOperation.swift */; };
 		55817C3E1B18FDF8001C0CE2 /* GroupOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55727FB11AF2798C00EC6916 /* GroupOperation.swift */; };
 		55817C3F1B18FDF8001C0CE2 /* URLSessionTaskOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55727FB91AF2849E00EC6916 /* URLSessionTaskOperation.swift */; };
 		55817C401B18FDF8001C0CE2 /* LocationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F50031B07FB5E005F991E /* LocationOperation.swift */; };
 		55817C411B18FDF8001C0CE2 /* DelayOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F50131B0832D2005F991E /* DelayOperation.swift */; };
-		55817C421B18FDF8001C0CE2 /* OperationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F50051B081760005F991E /* OperationObserver.swift */; };
+		55817C421B18FDF8001C0CE2 /* EarthquakeOperationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F50051B081760005F991E /* EarthquakeOperationObserver.swift */; };
 		55817C431B18FDF8001C0CE2 /* BlockObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F50081B0817D2005F991E /* BlockObserver.swift */; };
 		55817C441B18FDF8001C0CE2 /* TimeoutObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD643C1B128CC3000EF5CB /* TimeoutObserver.swift */; };
 		55817C451B18FDF8001C0CE2 /* OperationErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553F2D651B00041100BF4093 /* OperationErrors.swift */; };
@@ -96,7 +96,7 @@
 		553C5AC61AF6D2EB002FC47A /* HealthCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthCondition.swift; sourceTree = "<group>"; };
 		553F2D651B00041100BF4093 /* OperationErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationErrors.swift; sourceTree = "<group>"; };
 		553F50031B07FB5E005F991E /* LocationOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationOperation.swift; sourceTree = "<group>"; };
-		553F50051B081760005F991E /* OperationObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationObserver.swift; sourceTree = "<group>"; };
+		553F50051B081760005F991E /* EarthquakeOperationObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarthquakeOperationObserver.swift; sourceTree = "<group>"; };
 		553F50081B0817D2005F991E /* BlockObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockObserver.swift; sourceTree = "<group>"; };
 		553F500E1B081A9D005F991E /* NetworkObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkObserver.swift; sourceTree = "<group>"; };
 		553F50101B082BCF005F991E /* BackgroundObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundObserver.swift; sourceTree = "<group>"; };
@@ -227,7 +227,7 @@
 		553F50071B0817BB005F991E /* Observers */ = {
 			isa = PBXGroup;
 			children = (
-				553F50051B081760005F991E /* OperationObserver.swift */,
+				553F50051B081760005F991E /* EarthquakeOperationObserver.swift */,
 				553F50081B0817D2005F991E /* BlockObserver.swift */,
 				55AD643C1B128CC3000EF5CB /* TimeoutObserver.swift */,
 			);
@@ -417,7 +417,7 @@
 				55817C3E1B18FDF8001C0CE2 /* GroupOperation.swift in Sources */,
 				55817C491B18FDF8001C0CE2 /* NoCancelledDependencies.swift in Sources */,
 				55817C581B18FDF8001C0CE2 /* UIUserNotifications+Operations.swift in Sources */,
-				55817C421B18FDF8001C0CE2 /* OperationObserver.swift in Sources */,
+				55817C421B18FDF8001C0CE2 /* EarthquakeOperationObserver.swift in Sources */,
 				5521B4821B700C87007089CE /* NSLock+Operations.swift in Sources */,
 				553F500F1B081A9D005F991E /* NetworkObserver.swift in Sources */,
 				55817C551B18FDF8001C0CE2 /* Dictionary+Operations.swift in Sources */,

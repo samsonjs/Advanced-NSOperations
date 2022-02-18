@@ -9,10 +9,10 @@ This file shows how to implement the OperationObserver protocol.
 import Foundation
 
 /**
-    `TimeoutObserver` is a way to make an `Operation` automatically time out and
+    `TimeoutObserver` is a way to make an `EarthquakeOperation` automatically time out and
     cancel after a specified time interval.
 */
-struct TimeoutObserver: OperationObserver {
+struct TimeoutObserver {
     // MARK: Properties
 
     static let timeoutKey = "Timeout"
@@ -24,9 +24,11 @@ struct TimeoutObserver: OperationObserver {
     init(timeout: Int) {
         self.timeout = timeout
     }
-    
-    // MARK: OperationObserver
-    
+}
+
+// MARK: EarthquakeOperationObserver
+
+extension TimeoutObserver: EarthquakeOperationObserver {    
     func operationDidStart(operation: EarthquakeOperation) {
         // When the operation starts, queue up a block to cause it to time out.
         DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + .seconds(timeout)) {

@@ -50,7 +50,7 @@ struct CalendarCondition: OperationCondition {
 private let SharedEventStore = EKEventStore()
 
 /**
-    A private `Operation` that will request access to the user's Calendar/Reminders,
+    A private `EarthquakeOperation` that will request access to the user's Calendar/Reminders,
     if it has not already been granted.
 */
 private class CalendarPermissionOperation: EarthquakeOperation {

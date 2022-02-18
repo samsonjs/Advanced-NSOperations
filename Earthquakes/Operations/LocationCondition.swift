@@ -79,7 +79,7 @@ struct LocationCondition: OperationCondition {
 }
 
 /**
-    A private `Operation` that will request permission to access the user's location,
+    A private `EarthquakeOperation` that will request permission to access the user's location,
     if permission has not already been granted.
 */
 private class LocationPermissionOperation: EarthquakeOperation {

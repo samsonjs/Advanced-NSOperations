@@ -3,7 +3,7 @@ Copyright (C) 2015 Apple Inc. All Rights Reserved.
 See LICENSE.txt for this sample’s licensing information
 
 Abstract:
-Shows how to lift operation-like objects in to the NSOperation world.
+Shows how to lift operation-like objects in to the Operation world.
 */
 
 import Foundation
@@ -11,8 +11,8 @@ import Foundation
 private var URLSessionTaksOperationKVOContext = 0
 
 /**
-    `URLSessionTaskOperation` is an `Operation` that lifts an `URLSessionTask`
-    into an operation.
+    `URLSessionTaskOperation` is an `EarthquakeOperation` that lifts
+    an `URLSessionTask` into an operation.
 
     Note that this operation does not participate in any of the delegate callbacks \
     of an `URLSession`, but instead uses Key-Value-Observing to know when the

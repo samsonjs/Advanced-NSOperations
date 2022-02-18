@@ -58,7 +58,7 @@ private struct ParsedEarthquake {
     }
 }
 
-/// An `Operation` to parse earthquakes out of a downloaded feed from the USGS.
+/// An `EarthquakeOperation` to parse earthquakes out of a downloaded feed from the USGS.
 class ParseEarthquakesOperation: EarthquakeOperation {
     let cacheFile: URL
     let context: NSManagedObjectContext

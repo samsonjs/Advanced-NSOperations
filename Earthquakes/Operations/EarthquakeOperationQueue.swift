@@ -3,20 +3,20 @@ Copyright (C) 2015 Apple Inc. All Rights Reserved.
 See LICENSE.txt for this sample’s licensing information
 
 Abstract:
-This file contains an NSOperationQueue subclass.
+This file contains an OperationQueue subclass.
 */
 
 import Foundation
 
 /**
-    The delegate of an `OperationQueue` can respond to `Operation` lifecycle
-    events by implementing these methods.
+    The delegate of an `EarthquakeOperationQueue` can respond to `EarthquakeOperation`
+    lifecycle events by implementing these methods.
 
-    In general, implementing `OperationQueueDelegate` is not necessary; you would
-    want to use an `OperationObserver` instead. However, there are a couple of
-    situations where using `OperationQueueDelegate` can lead to simpler code.
+    In general, implementing `EarthquakeOperationQueueDelegate` is not necessary; you would
+    want to use an `EarthquakeOperationObserver` instead. However, there are a couple of
+    situations where using `EarthquakeOperationQueueDelegate` can lead to simpler code.
     For example, `GroupOperation` is the delegate of its own internal
-    `OperationQueue` and uses it to manage dependencies.
+    `EarthquakeOperationQueue` and uses it to manage dependencies.
 */
 @objc protocol EarthquakeOperationQueueDelegate: NSObjectProtocol {
     @objc optional func operationQueue(operationQueue: EarthquakeOperationQueue, willAddOperation operation: Operation)
@@ -24,8 +24,8 @@ import Foundation
 }
 
 /**
-    `OperationQueue` is an `NSOperationQueue` subclass that implements a large
-    number of "extra features" related to the `Operation` class:
+    `EarthquakeOperationQueue` is an `OperationQueue` subclass that implements a large
+    number of "extra features" related to the `EarthquakeOperation` class:
     
     - Notifying a delegate of all operation completion
     - Extracting generated dependencies from operation conditions
@@ -36,7 +36,7 @@ class EarthquakeOperationQueue: OperationQueue {
     
     override func addOperation(_ operation: Operation) {
         if let op = operation as? EarthquakeOperation {
-            // Set up a `BlockObserver` to invoke the `OperationQueueDelegate` method.
+            // Set up a `BlockObserver` to invoke the `EarthquakeOperationQueueDelegate` method.
             let delegate = BlockObserver(
                 startHandler: nil,
                 produceHandler: { [weak self] in
@@ -91,10 +91,10 @@ class EarthquakeOperationQueue: OperationQueue {
         }
         else {
             /*
-                For regular `NSOperation`s, we'll manually call out to the queue's
-                delegate we don't want to just capture "operation" because that
-                would lead to the operation strongly referencing itself and that's
-                the pure definition of a memory leak.
+                For regular `EarthquakeOperation`s, we'll manually call out to the
+                queue's delegate we don't want to just capture "operation" because
+                that would lead to the operation strongly referencing itself and
+                that's the pure definition of a memory leak.
             */
             operation.addCompletionBlock { [weak self, weak operation] in
                 guard let queue = self, let operation = operation else { return }

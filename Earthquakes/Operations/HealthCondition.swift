@@ -12,7 +12,7 @@ import HealthKit
 import UIKit
 
 /**
-    A condition to indicate an `Operation` requires access to the user's health
+    A condition to indicate an `EarthquakeOperation` requires access to the user's health
     data.
 */
 struct HealthCondition: OperationCondition {
@@ -92,7 +92,7 @@ struct HealthCondition: OperationCondition {
 }
 
 /**
-    A private `Operation` that will request access to the user's health data, if
+    A private `EarthquakeOperation` that will request access to the user's health data, if
     it has not already been granted.
 */
 private class HealthPermissionOperation: EarthquakeOperation {

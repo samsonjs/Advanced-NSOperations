@@ -12,16 +12,16 @@ import Foundation
     The protocol that types may implement if they wish to be notified of significant
     operation lifecycle events.
 */
-protocol OperationObserver {
+protocol EarthquakeOperationObserver {
     
-    /// Invoked immediately prior to the `Operation`'s `execute()` method.
+    /// Invoked immediately prior to the `EarthquakeOperation`'s `execute()` method.
     func operationDidStart(operation: EarthquakeOperation)
     
-    /// Invoked when `Operation.produceOperation(_:)` is executed.
+    /// Invoked when `EarthquakeOperation.produceOperation(_:)` is executed.
     func operation(operation: EarthquakeOperation, didProduceOperation newOperation: Operation)
     
     /**
-        Invoked as an `Operation` finishes, along with any errors produced during
+        Invoked as an `EarthquakeOperation` finishes, along with any errors produced during
         execution (or readiness evaluation).
     */
     func operationDidFinish(operation: EarthquakeOperation, errors: [NSError])

@@ -3,13 +3,13 @@ Copyright (C) 2015 Apple Inc. All Rights Reserved.
 See LICENSE.txt for this sample’s licensing information
 
 Abstract:
-This file contains the foundational subclass of NSOperation.
+This file contains the foundational subclass of Operation.
 */
 
 import Foundation
 
 /**
-    The subclass of `NSOperation` from which all other operations should be derived.
+    The subclass of `Operation` from which all other operations should be derived.
     This class adds both Conditions and Observers, which allow the operation to define
     extended readiness requirements, as well as notify many interested parties
     about interesting operation state changes
@@ -29,31 +29,31 @@ class EarthquakeOperation: Operation {
     // MARK: State Management
     
     fileprivate enum State: Int, Comparable {
-        /// The initial state of an `Operation`.
+        /// The initial state of an `EarthquakeOperation`.
         case Initialized
         
-        /// The `Operation` is ready to begin evaluating conditions.
+        /// The `EarthquakeOperation` is ready to begin evaluating conditions.
         case Pending
         
-        /// The `Operation` is evaluating conditions.
+        /// The `EarthquakeOperation` is evaluating conditions.
         case EvaluatingConditions
         
         /**
-            The `Operation`'s conditions have all been satisfied, and it is ready
+            The `EarthquakeOperation`'s conditions have all been satisfied, and it is ready
             to execute.
         */
         case Ready
         
-        /// The `Operation` is executing.
+        /// The `EarthquakeOperation` is executing.
         case Executing
         
         /**
-            Execution of the `Operation` has finished, but it has not yet notified
+            Execution of the `EarthquakeOperation` has finished, but it has not yet notified
             the queue of this.
         */
         case Finishing
         
-        /// The `Operation` has finished executing.
+        /// The `EarthquakeOperation` has finished executing.
         case Finished
         
         func canTransitionToState(target: State) -> Bool {
@@ -79,7 +79,7 @@ class EarthquakeOperation: Operation {
     }
     
     /**
-        Indicates that the Operation can now begin to evaluate readiness conditions,
+        Indicates that the EarthquakeOperation can now begin to evaluate readiness conditions,
         if appropriate.
     */
     func willEnqueue() {
@@ -194,9 +194,9 @@ class EarthquakeOperation: Operation {
         conditions.append(condition)
     }
     
-    private(set) var observers = [OperationObserver]()
+    private(set) var observers = [EarthquakeOperationObserver]()
     
-    func addObserver(observer: OperationObserver) {
+    func addObserver(observer: EarthquakeOperationObserver) {
         assert(state < .Executing, "Cannot modify observers after execution has begun.")
         
         observers.append(observer)
@@ -211,7 +211,7 @@ class EarthquakeOperation: Operation {
     // MARK: Execution and Cancellation
     
     override final func start() {
-        // NSOperation.start() contains important logic that shouldn't be bypassed.
+        // Operation.start() contains important logic that shouldn't be bypassed.
         super.start()
         
         // If the operation has been cancelled, we still need to enter the "Finished" state.
@@ -238,12 +238,12 @@ class EarthquakeOperation: Operation {
     }
     
     /**
-        `execute()` is the entry point of execution for all `Operation` subclasses.
-        If you subclass `Operation` and wish to customize its execution, you would
-        do so by overriding the `execute()` method.
+        `execute()` is the entry point of execution for all `EarthquakeOperation`
+        subclasses. If you subclass `EarthquakeOperation` and wish to customize its
+        execution, you would do so by overriding the `execute()` method.
         
-        At some point, your `Operation` subclass must call one of the "finish"
-        methods defined below; this is how you indicate that your operation has
+        At some point, your `EarthquakeOperation` subclass must call one of the
+        "finish" methods defined below; this is how you indicate that your operation has
         finished its execution, and that operations dependent on yours can re-evaluate
         their readiness state.
     */
