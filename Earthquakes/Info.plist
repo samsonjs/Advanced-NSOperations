@@ -25,13 +25,7 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
-		<dict>
-			<key>earthquake.usgs.gov</key>
-			<dict>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict>
+		<dict/>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Earthquakes uses your location to show how close you are to the epicenter of an earthquake.</string>

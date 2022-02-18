@@ -29,7 +29,7 @@ class DownloadEarthquakesOperation: GroupOperation {
             or when the services you use offer secure communication options, you
             should always prefer to use https.
         */
-        let url = URL(string: "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson")!
+        let url = URL(string: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson")!
         let task = URLSession.shared.downloadTask(with: url) { url, response, error in
             self.downloadFinished(url: url, response: response as? HTTPURLResponse, error: error as NSError?)
         }
