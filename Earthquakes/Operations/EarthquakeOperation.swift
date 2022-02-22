@@ -127,29 +127,29 @@ class EarthquakeOperation: Operation {
     override var isReady: Bool {
         switch state {
             
-            case .Initialized:
-                // If the operation has been cancelled, "isReady" should return true
+        case .Initialized:
+            // If the operation has been cancelled, "isReady" should return true
             return isCancelled
             
-            case .Pending:
-                // If the operation has been cancelled, "isReady" should return true
+        case .Pending:
+            // If the operation has been cancelled, "isReady" should return true
             guard !isCancelled else {
-                    return true
-                }
+                return true
+            }
                 
-                // If super isReady, conditions can be evaluated
+            // If super isReady, conditions can be evaluated
             if super.isReady {
-                    evaluateConditions()
-                }
+                evaluateConditions()
+            }
                 
-                // Until conditions have been evaluated, "isReady" returns false
-                return false
+            // Until conditions have been evaluated, "isReady" returns false
+            return false
             
-            case .Ready:
+        case .Ready:
             return super.isReady || isCancelled
             
-            default:
-                return false
+        default:
+            return false
         }
     }
     
